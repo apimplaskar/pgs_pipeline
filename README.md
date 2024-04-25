@@ -2,10 +2,10 @@
 Functionality will support multiple PGS methods
 
 
-1. Summary statistics preparation
+1. Summary statistics preparation:
+
+
 SNP_ID_harmonizer will detect and harmonize the ID between genotype data and GWAS summary stats. the output includes the following columns:
-
-
   - SNPname: original SNP name from the summary stats.
   - P: p-value.
   - CHR: chromosome.
