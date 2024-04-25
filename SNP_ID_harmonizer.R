@@ -230,9 +230,9 @@ write.table(report,file_report,quote=F,sep='\t',row.names = F)
 if (!is.null(Ntype)){
   file_PRSready <- paste0(outfile,"_PRSready.txt")
   if (Ntype=="binary"){
-    PRSdat<-dat1[which(!is.na(SNP)),c("SNPname","SNP","CHR","BP","P","BETA","Ncase","Ncontrol")]
+    PRSdat<-dat1[which(!is.na(SNP)),c("SNPname","SNP","CHR","BP","A1","A2", "P","BETA","Ncase","Ncontrol")]
   } else {
-    PRSdat<-dat1[which(!is.na(SNP)),c("SNPname","SNP","CHR","BP","P","BETA","Sample_size")]
+    PRSdat<-dat1[which(!is.na(SNP)),c("SNPname","SNP","CHR","BP","A1","A2","P","BETA","Sample_size")]
   }
   write.table(PRSdat,file_PRSready,quote=F,sep='\t',row.names = F)
 }
