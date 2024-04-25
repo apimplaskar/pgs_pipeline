@@ -60,6 +60,8 @@ option_list <- list(
               help="colnames for p value of target file"),
     make_option("--effect", type="character", default="BETA",
               help="colnames for effect (beta/BETA or OR/or) "),
+  make_option("--secol", type="character", default="SE",
+              help="colnames for effect (beta/BETA or OR/or) "),
   make_option("--SNP", type="character", default="SNP",
               help="colnames for SNP identifier  (rs code) in the target file"),
   make_option(c("-p", "--prefix"), type="character", default="",
@@ -78,21 +80,21 @@ opt_parser  <- OptionParser(option_list=option_list)
 opt <- parse_args(opt_parser)
 print(opt)
 # test & developing data
- opt<-list()
-opt$CHR<-"CHR"
-opt$POS<-"POS"
-opt$A2<-"A2"
-opt$A1<-"A1"
-opt$rCHR<-"CHROM"
-opt$rPOS<-"POS"
-opt$rA2<-"ALT"
-opt$rA1<-"REF"
-opt$input<-"/u/project/loes/elopera/pubGWAS_sumstats/processed/1.daner_MDDwoBP_20201001_2015iR15iex_HRC_MDDwoBP_iPSYCH2015i_lifted.txt"
-opt$refinput<-"/u/project/loes/elopera/genotypes/QCedv3/SNPs.list"
-opt$prefix<-"MDD"
-opt$PVAL<-"P"
-opt$SNP<-"SNP"
-opt$effect<-"OR"
+#  opt<-list()
+# opt$CHR<-"CHR"
+# opt$POS<-"POS"
+# opt$A2<-"A2"
+# opt$A1<-"A1"
+# opt$rCHR<-"CHROM"
+# opt$rPOS<-"POS"
+# opt$rA2<-"ALT"
+# opt$rA1<-"REF"
+# opt$input<-"/u/project/loes/elopera/pubGWAS_sumstats/processed/1.daner_MDDwoBP_20201001_2015iR15iex_HRC_MDDwoBP_iPSYCH2015i_lifted.txt"
+# opt$refinput<-"/u/project/loes/elopera/genotypes/QCedv3/SNPs.list"
+# opt$prefix<-"MDD"
+# opt$PVAL<-"P"
+# opt$SNP<-"SNP"
+# opt$effect<-"OR"
 ##################################
 #### main ####
 ##################################
@@ -111,8 +113,9 @@ refinput<-opt$refinput
 pvalcol<-opt$PVAL
 snpcol<-opt$SNP
 effectcol<-opt$effect
-selecv<-c(snpcol,pvalcol,chrcol, poscol, A1col, A2col, effectcol) ### vector of columns to extract
-namev<-c("SNPname","P","CHR", "BP", "A1", "A2","BETA") ### names of these columns
+secol<-opt$secol
+selecv<-c(snpcol,pvalcol,chrcol, poscol, A1col, A2col, effectcol,secol) ### vector of columns to extract
+namev<-c("SNPname","P","CHR", "BP", "A1", "A2","BETA","SE") ### names of these columns
 
 ##### setting the PRS file #####
 #opt<-c()
@@ -230,9 +233,9 @@ write.table(report,file_report,quote=F,sep='\t',row.names = F)
 if (!is.null(Ntype)){
   file_PRSready <- paste0(outfile,"_PRSready.txt")
   if (Ntype=="binary"){
-    PRSdat<-dat1[which(!is.na(SNP)),c("SNPname","SNP","CHR","BP","A1","A2", "P","BETA","Ncase","Ncontrol")]
+    PRSdat<-dat1[which(!is.na(SNP)),c("SNPname","SNP","CHR","BP","A1","A2", "P","BETA","SE","Ncase","Ncontrol")]
   } else {
-    PRSdat<-dat1[which(!is.na(SNP)),c("SNPname","SNP","CHR","BP","A1","A2","P","BETA","Sample_size")]
+    PRSdat<-dat1[which(!is.na(SNP)),c("SNPname","SNP","CHR","BP","A1","A2","P","BETA","SE","Sample_size")]
   }
   write.table(PRSdat,file_PRSready,quote=F,sep='\t',row.names = F)
 }
